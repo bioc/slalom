@@ -10,8 +10,9 @@ to install the package is to use the usual Bioconductor method:
 
 ```{R}
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("slalom")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("slalom")
 ```
 
 For details of how to use `slalom`, please consult the **vignette** and 
