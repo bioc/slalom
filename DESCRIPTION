@@ -1,7 +1,7 @@
 Package: slalom
 Type: Package
 Title: Factorial Latent Variable Modeling of Single-Cell RNA-Seq Data
-Version: 1.5.0
+Version: 1.5.1
 Date: 2018-04-25
 Authors@R: c(person("Florian", "Buettner", role=c("aut"),
         email="buettner@ebi.ac.uk"), person("Naruemon",
@@ -22,7 +22,7 @@ License: GPL-2
 VignetteBuilder: knitr
 LazyData: true
 Encoding: UTF-8
-biocViews: SingleCell, RNASeq, Normalization,
+biocViews: ImmunoOncology, SingleCell, RNASeq, Normalization,
         Visualization, DimensionReduction, Transcriptomics,
         GeneExpression, Sequencing, Software, Reactome
 RoxygenNote: 6.0.1
