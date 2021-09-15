@@ -71,7 +71,7 @@ newSlalomModel <- function(
         stop("rownames(object) is NULL: expecting gene identifiers as rownames")
     colnames(Y) <- rownames(object)
     if (is.null(colnames(object)))
-        rownames(Y) <- as.character(1:ncol(object))
+        rownames(Y) <- as.character(seq_len(ncol(object)))
     else
         rownames(Y) <- colnames(object)
     ## convert GeneSetCollection into I matrix of indicators
@@ -110,7 +110,8 @@ newSlalomModel <- function(
     ## add hidden factors
     if (n_hidden > 0L) {
         hidden_factors <- matrix(TRUE, nrow = nrow(I), ncol = n_hidden)
-        colnames(hidden_factors) <- paste0("hidden", sprintf("%02d", 1:n_hidden))
+        colnames(hidden_factors) <- paste0("hidden", 
+                                           sprintf("%02d", seq_len(n_hidden)))
         I <- cbind(hidden_factors, I)
     }
 
@@ -120,7 +121,8 @@ newSlalomModel <- function(
     pi_init <- I * 1L
     if (!is.null(design)) {
         if (is.null(colnames(design)))
-            colnames(design) <- paste0("known", sprintf("%02d", 1:ncol(design)))
+            colnames(design) <- paste0("known", 
+                                       sprintf("%02d", seq_len(ncol(design))))
         tmpmat <- matrix(1, nrow = nrow(pi_init), ncol = ncol(design))
         colnames(tmpmat) <- colnames(design)
         pi_init <- cbind(tmpmat, pi_init)
@@ -441,14 +443,14 @@ trainSlalom <- function(
     else
         pca <- rsvd::rpca(object$Y, k = 2, retx = TRUE)
     ## sort by correlation to PC1
-    mpc <- abs(stats::cor(object$X_E1, pca$x[,1]))[-c(1:n_fix)]
+    mpc <- abs(stats::cor(object$X_E1, pca$x[,1]))[-seq_len(n_fix)]
     Ipi <- order(mpc, decreasing = TRUE)
     IpiRev <- rev(Ipi)
     ## organise for fitting fwd and rev models
-    k_range <- 1:object$K
-    k_range[-c(1:n_fix)] <- Ipi + n_fix
-    k_range_rev <- 1:object$K
-    k_range_rev[-c(1:n_fix)] <- IpiRev + n_fix
+    k_range <- seq_len(object$K)
+    k_range[-seq_len(n_fix)] <- Ipi + n_fix
+    k_range_rev <- seq_len(object$K)
+    k_range_rev[-seq_len(n_fix)] <- IpiRev + n_fix
     n_hidden <- object$nHidden
     if (object$nKnown > 0)
         design <- object$Known
@@ -480,10 +482,10 @@ trainSlalom <- function(
     rm(obj_rev)
     ## get update ordering
     IpiK <- order(
-        -(0.5 * (1.0 / alpha_rev[order(k_range_rev)][-c(1:n_fix)])) +
-            0.5 * (1.0 / alpha_fwd[order(k_range)][-c(1:n_fix)])
+        -(0.5 * (1.0 / alpha_rev[order(k_range_rev)][-seq_len(n_fix)])) +
+            0.5 * (1.0 / alpha_fwd[order(k_range)][-seq_len(n_fix)])
     ) ## check this!!
-    i_label <- c(1:n_fix, IpiK + n_fix)
+    i_label <- c(seq_len(n_fix), IpiK + n_fix)
     i_label
 }
 
@@ -649,7 +651,7 @@ topTerms <- function(
 
     n_active <- min(sum(R > 0), n_active)
 
-    i_active <- order(R, decreasing = TRUE)[1:n_active]
+    i_active <- order(R, decreasing = TRUE)[seq_len(n_active)]
 
     df <- data.frame(
         term = terms[i_active],
@@ -734,7 +736,7 @@ addResultsToSingleCellExperiment <- function(
     MAD <- apply(X, 2, stats::mad)
     R <- (MAD > mad_filter) * relevance
     n_active <- min(sum(R > 0), n_active)
-    i_active <- order(R, decreasing = TRUE)[1:n_active]
+    i_active <- order(R, decreasing = TRUE)[seq_len(n_active)]
     ## add factor states
     X_to_add <- X[, i_active, drop = FALSE]
     colnames(X_to_add) <- terms[i_active]

@@ -1,8 +1,8 @@
 Package: slalom
 Type: Package
 Title: Factorial Latent Variable Modeling of Single-Cell RNA-Seq Data
-Version: 1.15.0
-Date: 2018-04-25
+Version: 1.15.1
+Date: 2021-09-15
 Authors@R: c(person("Florian", "Buettner", role=c("aut"),
         email="buettner@ebi.ac.uk"), person("Naruemon",
         "Pratanwanich", role=c("aut"), email="np394@ebi.ac.uk"),
@@ -12,11 +12,16 @@ Authors@R: c(person("Florian", "Buettner", role=c("aut"),
 Description: slalom is a scalable modelling framework for single-cell RNA-seq
         data that uses gene set annotations to dissect single-cell transcriptome
         heterogeneity, thereby allowing to identify biological drivers of
-        cell-to-cell variability and model confounding factors.
-Depends: R (>= 3.4)
+        cell-to-cell variability and model confounding factors. The method uses 
+        Bayesian factor analysis with a latent variable model to identify active
+        pathways (selected by the user, e.g. KEGG pathways) that explain variation
+        in a single-cell RNA-seq dataset. This an R/C++ implementation of the 
+        f-scLVM Python package. See the publication describing the method at 
+        https://doi.org/10.1186/s13059-017-1334-8. 
+Depends: R (>= 4.0)
 Imports: Rcpp (>= 0.12.8), RcppArmadillo, BH, ggplot2, grid, GSEABase,
         methods, rsvd, SingleCellExperiment, SummarizedExperiment, stats
-Suggests: knitr, rhdf5, scater, testthat
+Suggests: BiocStyle, knitr, rhdf5, rmarkdown, scater, testthat
 LinkingTo: Rcpp, RcppArmadillo, BH
 License: GPL-2
 VignetteBuilder: knitr
@@ -24,5 +29,5 @@ LazyData: true
 Encoding: UTF-8
 biocViews: ImmunoOncology, SingleCell, RNASeq, Normalization,
         Visualization, DimensionReduction, Transcriptomics,
-        GeneExpression, Sequencing, Software, Reactome
+        GeneExpression, Sequencing, Software, Reactome, KEGG
 RoxygenNote: 6.0.1
