@@ -1,7 +1,7 @@
 Package: slalom
 Type: Package
 Title: Factorial Latent Variable Modeling of Single-Cell RNA-Seq Data
-Version: 1.20.1
+Version: 1.20.2
 Date: 2021-11-21
 Authors@R: c(person("Florian", "Buettner", role=c("aut"),
         email="buettner@ebi.ac.uk"), person("Naruemon",
